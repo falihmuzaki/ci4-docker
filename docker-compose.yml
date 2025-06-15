@@ -1,0 +1,41 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ci4-web
+    ports:
+      - "8087:80"
+    volumes:
+      - ./app:/var/www/html
+    depends_on:
+      - db
+    env_file:
+      - ./app/.env
+
+  db:
+    image: postgres:15
+    container_name: ci4-postgres
+    environment:
+      POSTGRES_DB: ci4db
+      POSTGRES_USER: ci4user
+      POSTGRES_PASSWORD: ci4pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+    ports:
+      - "5055:80"
+    depends_on:
+      - db
+
+volumes:
+  pgdata: 
+    driver: local
