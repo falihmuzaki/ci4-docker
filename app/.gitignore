@@ -124,9 +124,3 @@ _modules/*
 
 /results/
 /phpunit*.xml
-
-/vendor
-/writable/cache/*
-/writable/logs/*
-.env
-docker/db_data/
